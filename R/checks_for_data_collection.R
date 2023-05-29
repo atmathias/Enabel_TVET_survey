@@ -87,27 +87,26 @@ add_checks_data_to_list(input_list_name = "logic_output", input_df_name = "df_no
 
 
 # testing_data
-# df_testing_data <- df_tool_data %>% 
-#   filter(i.check.uuid %in% c("3dcdf722-246d-472b-abbf-d37a21862cc4", 
-#                              "caf3073e-8705-4f18-b60d-8e67d75ae755")) %>%  
-#   mutate(i.check.type = "remove_survey",
-#          i.check.name = "",
-#          i.check.current_value = "",
-#          i.check.value = "",
-#          i.check.issue_id = "logic_m_testing_data",
-#          i.check.issue = "testing_data", 
-#          i.check.other_text = "",
-#          i.check.checked_by = "",
-#          i.check.checked_date = as_date(today()),
-#          i.check.comment = "", 
-#          i.check.reviewed = "1",
-#          i.check.adjust_log = "",
-#          i.check.uuid_cl = "",
-#          i.check.so_sm_choices = "") %>% 
-#   dplyr::select(starts_with("i.check")) %>% 
-#   rename_with(~str_replace(string = .x, pattern = "i.check.", replacement = ""))
-# 
-# add_checks_data_to_list(input_list_name = "logic_output", input_df_name = "df_testing_data")
+df_testing_data <- df_tool_data %>%
+  filter(i.check.start_date < as_date("2023-06-01") | str_detect(string = hh_id, pattern = fixed('test', ignore_case = TRUE))) %>% 
+    mutate(i.check.type = "remove_survey",
+         i.check.name = "",
+         i.check.current_value = "",
+         i.check.value = "",
+         i.check.issue_id = "logic_m_testing_data",
+         i.check.issue = "testing_data",
+         i.check.other_text = "",
+         i.check.checked_by = "",
+         i.check.checked_date = as_date(today()),
+         i.check.comment = "",
+         i.check.reviewed = "1",
+         i.check.adjust_log = "",
+         i.check.uuid_cl = "",
+         i.check.so_sm_choices = "") %>%
+  dplyr::select(starts_with("i.check")) %>%
+  rename_with(~str_replace(string = .x, pattern = "i.check.", replacement = ""))
+
+add_checks_data_to_list(input_list_name = "logic_output", input_df_name = "df_testing_data")
 
 #
 # Time checks -------------------------------------------------------------
@@ -123,12 +122,12 @@ df_c_survey_time <-  check_survey_time(input_tool_data = df_tool_data,
 add_checks_data_to_list(input_list_name = "logic_output", input_df_name = "df_c_survey_time")
 
 # check the time between surveys
-min_time_btn_surveys <- 5
-
-df_c_time_btn_survey <- check_time_interval_btn_surveys(input_tool_data = df_tool_data,
-                                                        input_min_time = min_time_btn_surveys)
-
-add_checks_data_to_list(input_list_name = "logic_output", input_df_name = "df_c_time_btn_survey")
+# min_time_btn_surveys <- 5
+# 
+# df_c_time_btn_survey <- check_time_interval_btn_surveys(input_tool_data = df_tool_data,
+#                                                         input_min_time = min_time_btn_surveys)
+# 
+# add_checks_data_to_list(input_list_name = "logic_output", input_df_name = "df_c_time_btn_survey")
 
 
 # others checks -----------------------------------------------------------
@@ -137,3 +136,18 @@ df_others_data <- extract_other_data(input_tool_data = df_tool_data,
                                      input_survey = df_survey, 
                                      input_choices = df_choices)
 add_checks_data_to_list(input_list_name = "logic_output", input_df_name = "df_others_data")
+
+
+# Logical checks
+
+
+
+
+
+
+
+
+
+
+
+
