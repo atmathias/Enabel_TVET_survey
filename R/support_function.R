@@ -24,7 +24,8 @@ extract_other_data <- function(input_tool_data, input_survey, input_choices) {
   
   # add and rename some columns
   df_data <- input_tool_data %>% 
-    rename(uuid = `_uuid`) %>% 
+    rename(uuid = `_uuid`,
+           location = individual_residence_district) %>% 
     mutate(start_date = as_date(start))
   
   # get questions with other
@@ -360,15 +361,9 @@ implement_cleaning_support <- function(input_df_raw_data, input_df_survey, input
   kbo_cleaned <- kobold::kobold_cleaner(kbo_modified)
   
   # handling Personally Identifiable Information(PII)
-  input_vars_to_remove_from_data <- c("complainant_name",
-                                      "complainant_id",
-                                      "respondent_telephone",
-                                      "name_pers_recording",
-                                      "geopoint",
-                                      "_geopoint_latitude",
-                                      "_geopoint_longitude",
-                                      "_geopoint_altitude",
-                                      "_geopoint_precision")
+  input_vars_to_remove_from_data <- c("individual_phone_number",
+                                      "individual_phone_number_verification",
+                                      "individual_name")
   
   df_handle_pii <- kbo_cleaned$data %>% 
     mutate(across(any_of(input_vars_to_remove_from_data), .fns = ~na_if(., .)))
