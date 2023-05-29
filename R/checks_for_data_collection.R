@@ -21,16 +21,11 @@ df_tool_data <- readxl::read_excel(path = "inputs/Enabel_tool.xlsx") %>%
          individual_age = as.numeric(individual_age),
          num_children_school_aged = as.numeric(num_children_school_aged))  
 
-
+# check the naming of sample data
 df_sample_data <- read_csv("inputs/xxxx.csv") %>% 
   janitor::clean_names() %>% 
   rename(unique_hhid_number = id)
 
-df_id_databse_data <- readxl::read_excel (path = "inputs/20_03_23_merged_databases_bna_id_linked.xlsx")
-
-# df_group_hh_no_data <- read_csv("inputs/merged_databases_bna_final.csv") %>% 
-#   janitor::clean_names() %>% 
-#   rename(unique_group_hh_no = hh_no)
 
 # output holder -----------------------------------------------------------
 
@@ -69,7 +64,7 @@ add_checks_data_to_list(input_list_name = "logic_output", input_df_name = "df_c_
 
 # no_consent
 df_no_consent <- df_tool_data %>% 
-  filter(consent == "no") %>% 
+  filter(consent == "no_consent") %>% 
   mutate(i.check.type = "remove_survey",
          i.check.name = "consent",
          i.check.current_value = as.character(consent),
