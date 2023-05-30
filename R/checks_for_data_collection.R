@@ -140,7 +140,60 @@ add_checks_data_to_list(input_list_name = "logic_output", input_df_name = "df_ot
 
 # Logical checks
 
+# Respondent reports majority of the communities get along, but reports refugees can not be trusted. i.e.
+# idi_reporting_people_get_on_well = "yes" but host_trusting_refugee_community = "no"
 
+df_people_get_along_well_refugee_1 <- df_tool_data %>% 
+  filter(idi_reporting_people_get_on_well %in% c("yes"), 
+           host_trusting_refugee_community %in% c("no")) %>% 
+  mutate(i.check.deviceid = deviceid,
+         i.check.type = "change_response",
+         i.check.name = "host_trusting_refugee_community", 
+         i.check.current_value = host_trusting_refugee_community,
+         i.check.value = "", 
+         i.check.issue_id = "logic_c_people_get_along_well_refugee_1",
+         i.check.issue = glue("idi_reporting_people_get_on_well: {idi_reporting_people_get_on_well}, 
+                              host_trusting_refugee_community: {host_trusting_refugee_community}"),
+         i.check.other_text = "",
+         i.check.checked_by = "MT",
+         i.check.checked_date = as_date(today()),
+         i.check.comment = "",
+         i.check.reviewed = "",
+         i.check.adjust_log = "",
+         i.check.uuid_cl = "",
+         i.check.so_sm_choices = "") %>% 
+  dplyr::select(starts_with("i.check")) %>%
+  rename_with(~str_replace(string = .x, pattern = "i.check.", replacement = ""))
+
+add_checks_data_to_list(input_list_name = "logic_output", input_df_name = "df_people_get_along_well_refugee_1")
+
+
+# Respondent reports majority of the communities get along, but reports host community can not be trusted. i.e.
+# idi_reporting_people_get_on_well = "yes" but refugee_trusting_host_community = "no"
+
+df_people_get_along_well_host_1 <- df_tool_data %>% 
+  filter(idi_reporting_people_get_on_well %in% c("yes"), 
+         refugee_trusting_host_community %in% c("no")) %>% 
+  mutate(i.check.deviceid = deviceid,
+         i.check.type = "change_response",
+         i.check.name = "refugee_trusting_host_community", 
+         i.check.current_value = refugee_trusting_host_community,
+         i.check.value = "", 
+         i.check.issue_id = "logic_c_people_get_along_well_host_1",
+         i.check.issue = glue("idi_reporting_people_get_on_well: {idi_reporting_people_get_on_well}, 
+                              refugee_trusting_host_community: {refugee_trusting_host_community}"),
+         i.check.other_text = "",
+         i.check.checked_by = "MT",
+         i.check.checked_date = as_date(today()),
+         i.check.comment = "",
+         i.check.reviewed = "",
+         i.check.adjust_log = "",
+         i.check.uuid_cl = "",
+         i.check.so_sm_choices = "") %>% 
+  dplyr::select(starts_with("i.check")) %>%
+  rename_with(~str_replace(string = .x, pattern = "i.check.", replacement = ""))
+
+add_checks_data_to_list(input_list_name = "logic_output", input_df_name = "df_people_get_along_well_host_1")
 
 
 
