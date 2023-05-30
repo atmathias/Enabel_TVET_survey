@@ -171,7 +171,7 @@ add_checks_data_to_list(input_list_name = "logic_output", input_df_name = "df_pe
 # Respondent reports majority of the communities get along, but reports host community can not be trusted. i.e.
 # idi_reporting_people_get_on_well = "yes" but refugee_trusting_host_community = "no"
 
-df_people_get_along_well_host_1 <- df_tool_data %>% 
+df_people_get_along_well_host_2 <- df_tool_data %>% 
   filter(idi_reporting_people_get_on_well %in% c("yes"), 
          refugee_trusting_host_community %in% c("no")) %>% 
   mutate(i.check.deviceid = deviceid,
@@ -179,7 +179,7 @@ df_people_get_along_well_host_1 <- df_tool_data %>%
          i.check.name = "refugee_trusting_host_community", 
          i.check.current_value = refugee_trusting_host_community,
          i.check.value = "", 
-         i.check.issue_id = "logic_c_people_get_along_well_host_1",
+         i.check.issue_id = "logic_c_people_get_along_well_host_2",
          i.check.issue = glue("idi_reporting_people_get_on_well: {idi_reporting_people_get_on_well}, 
                               refugee_trusting_host_community: {refugee_trusting_host_community}"),
          i.check.other_text = "",
