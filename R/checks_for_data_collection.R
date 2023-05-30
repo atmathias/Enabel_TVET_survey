@@ -356,4 +356,31 @@ df_host_graduate_joined_mixed_savings_group_8 <- df_tool_data %>%
 add_checks_data_to_list(input_list_name = "logic_output", input_df_name = "df_host_graduate_joined_mixed_savings_group_8")
 
 
+# Host graduate reports refugees are really part of this community, but the majority of both communities generally do not get along. i.e.
+# host_feeling_refugees_as_part_of_community = "yes" but idi_reporting_people_get_on_well = "no"
+df_host_graduate_feels_refugees_part_of_community_9 <- df_tool_data %>% 
+  filter(host_feeling_refugees_as_part_of_community %in% c("yes"), 
+         idi_reporting_people_get_on_well %in% c("no")) %>% 
+  mutate(i.check.deviceid = deviceid,
+         i.check.type = "change_response",
+         i.check.name = "idi_reporting_people_get_on_well", 
+         i.check.current_value = idi_reporting_people_get_on_well,
+         i.check.value = "", 
+         i.check.issue_id = "logic_c_host_graduate_feels_refugees_part_of_community_9",
+         i.check.issue = glue("host_feeling_refugees_as_part_of_community: {host_feeling_refugees_as_part_of_community}, 
+                              idi_reporting_people_get_on_well: {idi_reporting_people_get_on_well}"),
+         i.check.other_text = "",
+         i.check.checked_by = "MT",
+         i.check.checked_date = as_date(today()),
+         i.check.comment = "",
+         i.check.reviewed = "",
+         i.check.adjust_log = "",
+         i.check.uuid_cl = "",
+         i.check.so_sm_choices = "") %>% 
+  dplyr::select(starts_with("i.check")) %>%
+  rename_with(~str_replace(string = .x, pattern = "i.check.", replacement = ""))
+
+add_checks_data_to_list(input_list_name = "logic_output", input_df_name = "df_host_graduate_feels_refugees_part_of_community_9")
+
+
 
