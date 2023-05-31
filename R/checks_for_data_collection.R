@@ -9,7 +9,7 @@ source("R/support_functions.R")
 
 # read data ---------------------------------------------------------------
 
-df_tool_data <- readxl::read_excel(path = "inputs/Enabel_tool.xlsx") %>% 
+df_tool_data <- readxl::read_excel(path = "inputs/Enabel_action_research.xlsx") %>% 
   mutate(i.check.uuid = `_uuid`,
          i.check.start_date = as_date(start),
          i.check.enumerator_id = enumerator_id,
@@ -20,6 +20,11 @@ df_tool_data <- readxl::read_excel(path = "inputs/Enabel_tool.xlsx") %>%
          end = as_datetime(end), 
          individual_age = as.numeric(individual_age),
          num_children_school_aged = as.numeric(num_children_school_aged))  
+
+# reading questionnaire files
+df_survey <- readxl::read_excel(path = "inputs/Enabel_action_research_tool.xlsx", sheet = "survey")
+df_choices <- readxl::read_excel(path = "inputs/Enabel_action_research_tool.xlsx", sheet = "choices")
+
 
 # check the naming of sample data
 df_sample_data <- read_csv("inputs/xxxx.csv") %>% 
@@ -408,5 +413,26 @@ df_host_trusting_refugee_community_10 <- df_tool_data %>%
   rename_with(~str_replace(string = .x, pattern = "i.check.", replacement = ""))
 
 add_checks_data_to_list(input_list_name = "logic_output", input_df_name = "df_host_trusting_refugee_community_10")
+
+# combined logical checks ----------------------------------------------------------
+
+df_combined_checks <- bind_rows(logic_output)
+
+# adding the label after name
+
+df_combined_checks_final <- df_combined_checks %>% 
+mutate(int.name = ifelse(str_detect(string = name, pattern = "_rank_.*"), str_replace(string = name, pattern = "_rank_.*", replacement = ""), name)) %>% 
+  left_join(df_survey %>% select(name, label), by = c("int.name" = "name")) %>% 
+  select(-int.name) %>% 
+  relocate(label, .after = name)
+
+# Write output
+write_csv(x = df_combined_checks_final, file = paste0("outputs/", butteR::date_file_prefix(), "_combined_checks_bna.csv"), na = "")
+
+
+
+
+
+
 
 
