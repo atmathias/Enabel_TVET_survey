@@ -13,13 +13,12 @@ df_tool_data <- readxl::read_excel(path = "inputs/Enabel_action_research.xlsx") 
   mutate(i.check.uuid = `_uuid`,
          i.check.start_date = as_date(start),
          i.check.enumerator_id = enumerator_id,
-         i.check.location = individual_residence_district,
-         # check presence of hh_id or individual_id
-         i.check.hh_id = hh_id,
+         i.check.location = tvet_center_district,
+         # check presence of individual_phone_number to replace hh_id
+         i.check.individual_phone_number = individual_phone_number,
          start = as_datetime(start),
          end = as_datetime(end), 
-         individual_age = as.numeric(individual_age),
-         num_children_school_aged = as.numeric(num_children_school_aged))  
+         individual_age = as.numeric(individual_age))  
 
 # reading questionnaire files
 df_survey <- readxl::read_excel(path = "inputs/Enabel_action_research_tool.xlsx", sheet = "survey")
@@ -93,7 +92,7 @@ add_checks_data_to_list(input_list_name = "logic_output", input_df_name = "df_no
 
 # testing_data
 df_testing_data <- df_tool_data %>%
-  filter(i.check.start_date < as_date("2023-06-01") | str_detect(string = hh_id, pattern = fixed('test', ignore_case = TRUE))) %>% 
+  filter(i.check.start_date < as_date("2023-06-01") | str_detect(string = individual_phone_number, pattern = fixed('test', ignore_case = TRUE))) %>% 
     mutate(i.check.type = "remove_survey",
          i.check.name = "",
          i.check.current_value = "",
