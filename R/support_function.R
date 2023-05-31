@@ -25,7 +25,7 @@ extract_other_data <- function(input_tool_data, input_survey, input_choices) {
   # add and rename some columns
   df_data <- input_tool_data %>% 
     rename(uuid = `_uuid`,
-           location = individual_residence_district) %>% 
+           location = tvet_center_district) %>% 
     mutate(start_date = as_date(start))
   
   # get questions with other
